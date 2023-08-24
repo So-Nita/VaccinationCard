@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Visitor Page";
+}
+
+
+<div class="container-xxl">
+    <div class="d-flex justify-content-between mb-2">
+            <h3 class="">Visitors  Report</h3>
+            <div><input type="button" class="btn btn-sm btn-primary text-white" value="Add New" />  </div>
+    </div>
+    <table id="datatable" class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Full Name</th>
+                <th>Date of Birth</th>
+                <th>Province</th>
+                <th>Identity ID</th>
+            </tr>
+        </thead> 
+        <tbody></tbody>
+    </table>
+</div>
+
+@section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Fetch data from the API endpoint
+            $.ajax({
+                url: '/Customers/Get', 
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var index = 1;
+                    data.forEach(function (customer) {
+                        $('#datatable').DataTable().row.add([
+                            index,
+                            customer.name,
+                            customer.dob,
+                            customer.province.provinceName,
+                            customer.identityId
+                        ]).draw(false);
+                        index++;
+                    });
+                },
+                error: function (error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    @*<script src="../Views/Script/Customers.js"></script>*@
+}

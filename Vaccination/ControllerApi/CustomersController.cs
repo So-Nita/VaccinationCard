@@ -1,20 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Vaccination_WebApi.EnityModel;
-using Vaccination_WebApi.Model.Customer;
-using Vaccination_WebApi.UnitofWork;
+﻿using Vaccination.EnityModel;
+using Vaccination.Models.Customer;
+using Vaccination.UnitofWork;
+using System.Web.Http;
 
-namespace Vaccination_WebApi.Controllers
+namespace Vaccination.ControllerApi
 {
-    [ApiController]
-    public class CustomerController : ControllerBase
+    [Route("/api/Customers")]
+    public class CustomersController : ApiController
     {
         private readonly IUnitOfWork _context;
-        public CustomerController(IUnitOfWork context)
+        public CustomersController(IUnitOfWork context)
         {
             _context= context;  
         }
-        [HttpGet("getAllCustomer")]
-        public IActionResult Index()
+        //[Route("getAllCustomer")]
+        public IEnumerable<Customer> Get()
         {
             var customer = _context.GetRepository<Customer,string>().GetAll()!.Select(e=> new Customer
                             {
@@ -24,10 +24,10 @@ namespace Vaccination_WebApi.Controllers
                                 IdentityId = e.IdentityId,
                                 Province=e.Province
                             }).ToList(); 
-            return Ok(customer);
+            return customer;
         }
-        [HttpPost("addCustomer")]
-        public async Task<IActionResult> Post(CustomerCreateModel customer)
+        //[Route("addCustomer")]
+        public object Post(CustomerCreateModel customer)
         {
             var newCus = new Customer
             {
@@ -39,24 +39,24 @@ namespace Vaccination_WebApi.Controllers
             _context.BeginTransaction();
             try
             {
-                await _context.GetRepository<Customer, string>().AddAsync(newCus);
+                 _context.GetRepository<Customer, string>().AddAsync(newCus);
                 _context.Commit();  
                 return Ok(newCus);
             }
             catch
             {
-                _context.Rollback();    
-                return StatusCode(401,new Exception());
+                _context.Rollback();
+                throw new Exception();
             }
         }
 
-        [HttpPut("updateCustomer")]
-        public async Task<IActionResult> Put(CustomerUpdateModel data)
+        //[Route("updateCustomer")]
+        public async Task<object> Put(CustomerUpdateModel data)
         {
             try
             {
-                var customer = await _context.GetRepository<Customer, string>().GetByIdAsync(data.Id);
-                if (customer == null) return NotFound("Customer does not exist");
+                var customer = await  _context.GetRepository<Customer, string>().GetByIdAsync(data.Id);
+                if (customer == null) return new Exception("Customer does not exist");
                
                 customer.Name = data.Name;
                 customer.DOB = data.DOB;
@@ -64,13 +64,13 @@ namespace Vaccination_WebApi.Controllers
                 customer.ProvinceId = data.ProvinceId;
 
                 _context.BeginTransaction();
-                await _context.GetRepository<Customer, string>().UpdateAsync(customer);
+                  _context.GetRepository<Customer, string>().UpdateAsync(customer);
                 _context.Commit();
                 return Ok(customer);
             }
             catch
             {
-                return BadRequest(new Exception());
+                throw new Exception();
             }
         }
 

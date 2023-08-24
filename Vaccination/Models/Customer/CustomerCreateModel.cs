@@ -1,4 +1,4 @@
-﻿namespace Vaccination_WebApi.Model.Customer
+﻿namespace Vaccination.Models.Customer
 {
     public class CustomerCreateModel
     {

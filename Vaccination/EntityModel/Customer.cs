@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Vaccination_WebApi.UnitofWork;
+using Vaccination.UnitofWork;
 
-namespace Vaccination_WebApi.EnityModel
+namespace Vaccination.EnityModel
 {
     public class Customer
     {

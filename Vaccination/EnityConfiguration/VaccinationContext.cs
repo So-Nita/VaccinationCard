@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Vaccination_WebApi.EnityModel;
+using Vaccination.EnityModel;
 
-namespace Vaccination_WebApi.EnityConfiguration
+namespace Vaccination.EnityConfiguration
 {
     public class VaccinationContext : DbContext
     {

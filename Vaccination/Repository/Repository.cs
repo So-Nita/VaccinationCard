@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using System.Drawing.Printing;
-using Vaccination_WebApi.EnityConfiguration;
-using Vaccination_WebApi.UnitofWork;
+using Vaccination.EnityConfiguration;
+using Vaccination.UnitofWork;
 
-namespace Vaccination_WebApi.Repository
+namespace Vaccination.Repository
 {
     public class Repository<TE, TK> : IRepository<TE, TK> where TE : class //, IKey<TK>
     {
