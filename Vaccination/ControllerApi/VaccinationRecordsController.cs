@@ -13,47 +13,60 @@ namespace Vaccination.ControllerApi
         private readonly IUnitOfWork _context;
         public VaccinationRecordsController(IUnitOfWork context)
         {
-            _context= context;  
+            _context = context;  
         }
 
         public IEnumerable<object> Get()
         {
-            var records = _context.GetRepository<VaccinatedRecord, string>().GetAll().Include(e => e.Customer).ToList();
-            var allCard = _context.GetRepository<CardType, string>().GetAll().ToList();
-            var provinces = _context.GetRepository<Province, string>().GetAll().ToList();
+            var vaccRecords = _context.GetRepository<VaccinatedRecord, string>().GetAll().ToList();
+            var cardTypes = _context.GetRepository<CardType, string>().GetAll().ToList().ToList();
+            var provinces = _context.GetRepository<Province, string>().GetAll().ToList().ToList();
+            var customers = _context.GetRepository<Customer, string>().GetAll().ToList().ToList();
 
-            var data = new List<object>(); 
+            var result = (from vr in vaccRecords
+                          join c in customers on vr.Customer_Id equals c.Id
+                          join ct in cardTypes on vr.Card_Id equals ct.Id
+                          join p in provinces on c.ProvinceId equals p.Id
+                          select new
+                          {
+                              RecordId = vr.Id,
+                              CustomerId = vr.Customer_Id,
+                              CardId = vr.Card_Id,
+                              DoeseReceived = vr.DoeseReceived,
+                              DateVaccinated = vr.DateVaccinated,
+                              CardName = ct.CardName,
+                              DOB = c.DOB,
+                              ProvinceId = c.ProvinceId,
+                              IdentityId = c.IdentityId,
+                              CardCreate = ct.Create,
+                              CardDelete = ct.Deleted,
+                              ProvinceName = p.ProvinceName,
+                              ProvinceDelete = p.Deleted,
+                          }).ToList();
+            // Group By Province
+            var datagroupByProvince = result.GroupBy(c => new { c.ProvinceName, c.DoeseReceived }).ToList();
+            //Group By Dose
+            var ilist = new List<object>();
 
-            var groupByDose = records.GroupBy(e => e.DoeseReceived).ToList();
-            foreach (var cusRecord in groupByDose)
+            var subCountCard = new List<object>();
+            foreach (var i in datagroupByProvince)
             {
-                foreach (var record in cusRecord)
+                var tt = i.GroupBy(e => e.DoeseReceived).ToList();
+                ilist.Add(tt);
+                var item = i.Count();
+                var cardName = i.First().CardName;
+                var group = i.GroupBy(e => e.CardName).ToList();
+                var card = new CardTypes
                 {
-                    var provinName = provinces.FirstOrDefault(e => e.Id == record.Customer.ProvinceId)?.ProvinceName;
-                    var cardName = allCard.FirstOrDefault(e => e.Id == record.Card_Id)?.CardName;
-
-                    var _temp = new 
-                    {
-                        ProvinceName = provinName,
-                        NumOfDose = record.DoeseReceived,
-                        SumVisitor = "", 
-                        CardTypes = new
-                        {
-                            CardName = cardName,
-                            NumVacc = cusRecord.Count() 
-                        }
-                    };
-
-                    data.Add(_temp); 
-                }
+                    CardName = cardName,
+                    SumCartType = item
+                };
+                subCountCard.Add(card);
             }
 
-            return data; 
+            return datagroupByProvince;
         }
 
-
-        // POST: VaccinationRecordController/Create
-        //[HttpPost("createVaccinateRecord")]
         public IEnumerable<object> Create(VaccinationRecordModel model)
         {
             try 
@@ -102,13 +115,18 @@ namespace Vaccination.ControllerApi
 
         }
 
-     
-        public class GetVacciRecordModel
+        class RecordModel
         {
             public string ProvinceName { get; set; }
-            public int NumOfDose { get; set; }
-            public string SumVisitor { get; set; }
-            public IEnumerable<string> CardTypes { get; set; } 
+            public int ReceiveDose { get; set; }
+            public int SumVisitor { get; set; }
+            public List<CardTypes> CardTypes_ { get; set; }
+        }
+        class CardTypes
+        {
+            public string CardName { get; set; }
+            public int SumCartType { get; set; }
+
         }
     }
 }
