@@ -1,7 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using Vaccination_WebApi.EnityConfiguration;
+using Vaccination_WebApi.UnitofWork;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<VaccinationContext>(opt =>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
