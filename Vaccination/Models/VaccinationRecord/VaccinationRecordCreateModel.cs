@@ -1,4 +1,4 @@
-﻿namespace Vaccination_WebApi.Model.VaccinationRecord
+﻿namespace Vaccination.Model.VaccinationRecord
 {
     public class VaccinationRecordCreateModel
     {

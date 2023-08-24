@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Vaccination_WebApi.EnityModel;
+using Vaccination.EnityModel;
 
-namespace Vaccination_WebApi.EnityConfiguration
+namespace Vaccination.EnityConfiguration
 {
     public class ProvinceEntity : IEntityTypeConfiguration<Province>
     {

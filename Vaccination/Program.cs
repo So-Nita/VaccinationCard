@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Vaccination_WebApi.EnityConfiguration;
-using Vaccination_WebApi.UnitofWork;
+using Vaccination.EnityConfiguration;
+using Vaccination.UnitofWork;
 
 var builder = WebApplication.CreateBuilder(args);
 

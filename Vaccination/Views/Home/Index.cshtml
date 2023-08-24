@@ -2,7 +2,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+}
+<div class="container-xxl">
+    <div class="row mb-2 ">
+        <h3 class="">Visitors  Report</h3>
+    </div>
+    <table id="datatable" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Province</th>
+            <th># of Doses</th>
+            <th>Visitor Count</th>
+            <th>Card Type</th>
+            </tr> 
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Phnom Penh</td>
+            <td>5</td>
+            <td>100</td>
+            <td>MOH : 70, MOD: 30</td>
+        </tr>
+    </tbody>
+</table>
 </div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+    </script>
+}

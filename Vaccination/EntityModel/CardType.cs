@@ -1,4 +1,4 @@
-﻿namespace Vaccination_WebApi.EnityModel
+﻿namespace Vaccination.EnityModel
 {
     public class CardType
     {

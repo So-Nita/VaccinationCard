@@ -18,12 +18,8 @@ namespace Vaccination.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult CreateCustomer()
+        // View Customer 
+        public IActionResult Customer()
         {
             return View();
         }

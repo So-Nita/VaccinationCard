@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Vaccination_WebApi.EnityModel;
+using Vaccination.EnityModel;
 
-namespace Vaccination_WebApi.EnityConfiguration
+namespace Vaccination.EnityConfiguration
 {
     public class CustomerEntity : IEntityTypeConfiguration<Customer>
     {
@@ -13,11 +13,11 @@ namespace Vaccination_WebApi.EnityConfiguration
             builder.Property(e=>e.Id).IsRequired().HasColumnType("varchar").HasMaxLength(36);
             builder.Property(e => e.Name).IsRequired().HasColumnType("varchar").HasMaxLength(100);
             builder.Property(e => e.DOB).IsRequired().HasColumnType("date");
-            builder.Property(e=>e.ProvinceId).IsRequired().HasColumnType("varchar").HasMaxLength(36);
             builder.Property(e => e.IdentityId).IsRequired().HasColumnType("int").HasMaxLength(10);
+            builder.Property(e => e.ProvinceId).IsRequired().HasColumnType("varchar").HasMaxLength(36);
             builder.HasOne(e => e.Province)
-                .WithOne() // Remove the navigation property reference (e => e.Id)
-                .HasForeignKey<Customer>(e => e.ProvinceId) // Define the foreign key
+                .WithMany() // No navigation property reference
+                .HasForeignKey(e => e.ProvinceId)
                 .IsRequired();
         }
     }

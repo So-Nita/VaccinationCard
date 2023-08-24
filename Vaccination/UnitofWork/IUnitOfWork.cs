@@ -1,6 +1,6 @@
-﻿using Vaccination_WebApi.Repository;
+﻿using Vaccination.Repository;
 
-namespace Vaccination_WebApi.UnitofWork
+namespace Vaccination.UnitofWork
 {
     public interface IUnitOfWork
     {

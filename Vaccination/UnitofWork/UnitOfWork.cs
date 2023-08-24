@@ -2,10 +2,10 @@
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using Vaccination_WebApi.EnityConfiguration;
-using Vaccination_WebApi.Repository;
+using Vaccination.EnityConfiguration;
+using Vaccination.Repository;
 
-namespace Vaccination_WebApi.UnitofWork
+namespace Vaccination.UnitofWork
 {
     public class UnitOfWork : IDisposable, IUnitOfWork
     {

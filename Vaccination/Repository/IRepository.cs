@@ -1,6 +1,6 @@
-﻿using Vaccination_WebApi.UnitofWork;
+﻿using Vaccination.UnitofWork;
 
-namespace Vaccination_WebApi.Repository
+namespace Vaccination.Repository
 {
     public interface IRepository<TE, TK> where TE : class //, IKey<TK>
     {
