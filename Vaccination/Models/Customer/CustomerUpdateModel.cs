@@ -1,11 +1,18 @@
-﻿namespace Vaccination.Models.Customer
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Vaccination.EnityModel;
+
+namespace Vaccination.Models.Customer
 {
-    public class CustomerUpdateModel
+    public class CustomerCreateViewModel
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public DateTime DOB { get; set; }
-        public int IndentityId { get; set; }
-        public string ProvinceId { get; set; }
+        public CustomerUpdateModel Customer { get; set; }
+        public List<SelectListItem> CardTypes { get; set; }
+        public List<SelectListItem> ProvinceList { get; set; }
     }
+    public class CustomerUpdateModel : CustomerCreateModel
+    {
+        public string CustomerId { get; set; }  
+    }
+
+
 }

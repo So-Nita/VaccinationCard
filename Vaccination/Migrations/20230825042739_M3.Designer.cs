@@ -12,8 +12,8 @@ using Vaccination.EnityConfiguration;
 namespace Vaccination.Migrations
 {
     [DbContext(typeof(VaccinationContext))]
-    [Migration("20230824130146_M2")]
-    partial class M2
+    [Migration("20230825042739_M3")]
+    partial class M3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
