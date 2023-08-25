@@ -78,6 +78,7 @@ namespace Vaccination.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+           
 
             migrationBuilder.CreateTable(
                 name: "VaccinatedRecords",

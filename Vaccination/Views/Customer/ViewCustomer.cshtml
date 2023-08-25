@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Edit Page";
+}
+
+@model Vaccination.Models.Customer.CustomerCreateViewModel;
+
+
+<div class="container px-5" style="margin-top:-10px;">
+    <div class="d-flex justify-content-center text-secondary" ><h3>Update Information</h3></div>
+
+    <form method="post" style="margin-top:-8px;" >
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input id="Id" type="hidden" class="form-control form-control-sm" asp-for="Customer.CustomerId" />
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input id="Name" type="text" class="form-control form-control-sm" asp-for="Customer.Name" />
+            <span asp-validation-for="Customer.Name" class="text-danger text-sm-start"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Identity ID</label>
+            <input id="IndentityId" type="text" class="form-control form-control-sm" asp-for="Customer.IndentityId" />
+            <span asp-validation-for="Customer.IndentityId" class="text-danger"></span>
+        </div>
+
+        
+        <div class="mb-3">
+            <label class="form-label">Date Of Birth</label>
+            <input id="DOB" type="date" class="form-control form-control-sm" asp-for="Customer.DOB" />
+            <span asp-validation-for="Customer.DOB" class="text-danger"></span>
+        </div>
+        
+        @if(Model !=null){
+             <div class="mb-3">
+            <label class="form-label">Province</label>
+                <select id="provinceSelect" class="form-select form-select-sm" asp-items="@Model.ProvinceList" asp-for="Customer.ProvinceId">
+                <option value="">Select Province</option>
+            </select>
+        </div>
+        }
+       
+        @if (Model != null)
+        {
+            <div class="mb-3">
+                <label class="form-label">Covid Card</label>
+            <select id="cardSelect" class="form-select form-select-sm" asp-items="@Model.CardTypes" asp-for="Customer.CardId">
+                <option value="">Select Card Type</option>
+            </select>
+            </div>
+        }
+        <div class="mb-3">
+            <label class="form-label">Dose Received</label>
+            <input id="DoseReceived" type="number" class="form-control form-control-sm" asp-for="Customer.DoseReceived" />
+            <span asp-validation-for="Customer.DoseReceived" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Date Vaccinated</label>
+            <input id="DateVaccinated" type="date" class="form-control form-control-sm" asp-for="Customer.DateVaccinated" />
+            <span asp-validation-for="Customer.DateVaccinated" class="text-danger"></span>
+        </div>
+
+        <button type="submit"  class="btn btn-primary text-white" asp-area="" >Save Change</button>
+
+    </form>
+</div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                event.preventDefault();
+
+                var formData = {
+                    CustomerId: $('#Id').val(),
+                    Name: $('#Name').val(),
+                    DOB: $('#DOB').val(),
+                    IndentityId: $('#IndentityId').val(),
+                    DoseReceived: $('#DoseReceived').val(),
+                    DateVaccinated: $('#DateVaccinated').val(),
+                    ProvinceId: $('#provinceSelect').val(),
+                    CardId: $('#cardSelect').val(),
+                };
+                console.log(JSON.stringify(formData))
+                $.ajax({
+                    url: '/Customer/UpdateCustomer',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+
+                    success: function (response) {
+                        alert("Update Successfully \nPlase go to check in view page.\nReload auto is comming soon.")
+                    },
+                    error: function (error) {
+                        console.log('Error:', error);
+                        if (status ==200) {
+                            alert("Update Successfully \n Plase go to view page.")
+                        } else { alert("Error Create not success"); }
+                    }
+                });
+            });
+        });
+    </script>
+
+}
+

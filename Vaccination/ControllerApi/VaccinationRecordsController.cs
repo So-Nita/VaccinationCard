@@ -19,52 +19,29 @@ namespace Vaccination.ControllerApi
         public IEnumerable<object> Get()
         {
             var vaccRecords = _context.GetRepository<VaccinatedRecord, string>().GetAll().ToList();
-            var cardTypes = _context.GetRepository<CardType, string>().GetAll().ToList().ToList();
-            var provinces = _context.GetRepository<Province, string>().GetAll().ToList().ToList();
-            var customers = _context.GetRepository<Customer, string>().GetAll().ToList().ToList();
+            var cardTypes = _context.GetRepository<CardType, string>().GetAll().ToList();
+            var provinces = _context.GetRepository<Province, string>().GetAll().ToList();
+            var customers = _context.GetRepository<Customer, string>().GetAll().ToList();
 
+           
             var result = (from vr in vaccRecords
                           join c in customers on vr.Customer_Id equals c.Id
                           join ct in cardTypes on vr.Card_Id equals ct.Id
                           join p in provinces on c.ProvinceId equals p.Id
+                          group new { c.Id, ct.CardName } by new { p.ProvinceName, vr.DoeseReceived } into g
                           select new
                           {
-                              RecordId = vr.Id,
-                              CustomerId = vr.Customer_Id,
-                              CardId = vr.Card_Id,
-                              DoeseReceived = vr.DoeseReceived,
-                              DateVaccinated = vr.DateVaccinated,
-                              CardName = ct.CardName,
-                              DOB = c.DOB,
-                              ProvinceId = c.ProvinceId,
-                              IdentityId = c.IdentityId,
-                              CardCreate = ct.Create,
-                              CardDelete = ct.Deleted,
-                              ProvinceName = p.ProvinceName,
-                              ProvinceDelete = p.Deleted,
+                              ProvinceName = g.Key.ProvinceName,
+                              DoseReceived = g.Key.DoeseReceived,
+                              CustomersCount = g.Select(item => item.Id).Distinct().Count(),
+                              CardTypes = new 
+                              {
+                                  MOD = g.Count(item => item.CardName == "MOD"),
+                                  MOH = g.Count(item => item.CardName == "MOH")
+                              }
                           }).ToList();
-            // Group By Province
-            var datagroupByProvince = result.GroupBy(c => new { c.ProvinceName, c.DoeseReceived }).ToList();
-            //Group By Dose
-            var ilist = new List<object>();
-
-            var subCountCard = new List<object>();
-            foreach (var i in datagroupByProvince)
-            {
-                var tt = i.GroupBy(e => e.DoeseReceived).ToList();
-                ilist.Add(tt);
-                var item = i.Count();
-                var cardName = i.First().CardName;
-                var group = i.GroupBy(e => e.CardName).ToList();
-                var card = new CardTypes
-                {
-                    CardName = cardName,
-                    SumCartType = item
-                };
-                subCountCard.Add(card);
-            }
-
-            return datagroupByProvince;
+            var t = result;
+            return result;
         }
 
         public IEnumerable<object> Create(VaccinationRecordModel model)
@@ -114,19 +91,7 @@ namespace Vaccination.ControllerApi
             }
 
         }
+        
 
-        class RecordModel
-        {
-            public string ProvinceName { get; set; }
-            public int ReceiveDose { get; set; }
-            public int SumVisitor { get; set; }
-            public List<CardTypes> CardTypes_ { get; set; }
-        }
-        class CardTypes
-        {
-            public string CardName { get; set; }
-            public int SumCartType { get; set; }
-
-        }
     }
 }

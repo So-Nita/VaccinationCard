@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Add Record";
+}
+@model Vaccination.Model.VaccinationRecord.VaccinationRecordModel;
+@*@model Vaccination.ControllerApi.VaccinationRecordsController.GetCardTypes;*@
+
+<form method="post" action="GetCardTypes">
+    <div class="mb-3">
+        <label class="form-label">Identity ID</label>
+        <input type="text" class="form-control" asp-for="Cus_IdentityId" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Visitor IdentityID</label>
+        <select>
+            <option></option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Visitor IdentityID</label>
+        <input type="text" class="form-control" asp-for="Cus_IdentityId" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Visitor IdentityID</label>
+        <input type="date" class="form-control" asp-for="Cus_IdentityId" />
+    </div>
+</form>

@@ -6,7 +6,6 @@
 <div class="container-xxl">
     <div class="d-flex justify-content-between mb-2">
         <h3 class="">Visitors  Report</h3>
-        <div><input type="button" class="btn btn-sm btn-primary text-white" value="Add New" />  </div>
     </div>
     <table id="datatable" class="table table-striped" style="width:100%">
         <thead>
@@ -16,7 +15,7 @@
                 <th># of Doses</th>
                 <th>Visitor Count</th>
                 <th>Card Type</th>
-                <th>Action</th>
+                @*<th>Action</th>*@
             </tr>
         </thead>
         <tbody></tbody>
@@ -45,17 +44,16 @@
                 success: function (data) {
                     var index = 1;
                     data.forEach(function (i) {
-                        i.forEach(function (ii){
+                        console.log(i);
                             $('#datatable').DataTable().row.add([
-                                index,
-                                ii.provinceName,
-                                ii.doeseReceived,
-                                i.length,
-                                ii.cardName + ":" + ii.length + ii.cardName + ":" + ii.length,
-                                ii.identityId
+                            index,
+                            i.provinceName,
+                            i.doseReceived,
+                            i.customersCount,
+                            "MOH" + " : " + i.cardTypes.moh + ", MOD : " + i.cardTypes.mod,
+                            //null
                             ]).draw(false);
                             index++;
-                        });
                     });
                 },
                 error: function (error) {
