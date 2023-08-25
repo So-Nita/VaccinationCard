@@ -3,7 +3,18 @@
 }
 
 @model Vaccination.Models.Customer.CustomerCreateViewModel;
-
+@{
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">@successMessage</div>
+}
 
 <div class="container px-5" style="margin-top:-10px;">
     <div class="d-flex justify-content-center text-secondary" ><h3>Update Information</h3></div>
@@ -66,6 +77,8 @@
 </div>
 
 
+
+
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -100,9 +113,6 @@
                     },
                     error: function (error) {
                         console.log('Error:', error);
-                        if (status ==200) {
-                            alert("Update Successfully \n Plase go to view page.")
-                        } else { alert("Error Create not success"); }
                     }
                 });
             });
