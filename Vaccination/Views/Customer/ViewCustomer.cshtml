@@ -61,7 +61,7 @@
         }
         <div class="mb-3">
             <label class="form-label">Dose Received</label>
-            <input id="DoseReceived" type="number" class="form-control form-control-sm" asp-for="Customer.DoseReceived" />
+            <input id="DoseReceived" type="number" maxlength="1" class="form-control form-control-sm" asp-for="Customer.DoseReceived" />
             <span asp-validation-for="Customer.DoseReceived" class="text-danger"></span>
         </div>
 

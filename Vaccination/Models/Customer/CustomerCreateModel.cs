@@ -12,10 +12,10 @@ namespace Vaccination.Models.Customer
         [Required(ErrorMessage = "Date of Birth is required")]
         public DateTime DOB { get; set; }
 
-        [Required(ErrorMessage = "Province is required")]
+        [BindNever]
 
         public string ProvinceId { get; set; }
-        [Required(ErrorMessage = "Card type is required")]
+        [BindNever]
 
         public string CardId { get; set; }
         [Required(ErrorMessage = "Identity Id is required")]
