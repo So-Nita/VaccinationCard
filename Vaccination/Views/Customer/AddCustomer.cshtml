@@ -24,7 +24,7 @@
 
         <div class="mb-3">
             <label class="form-label">Identity ID</label>
-            <input id="IndentityId" type="text" class="form-control form-control-sm" asp-for="Customer.IndentityId" />
+            <input maxlength="10" id="IndentityId" type="text" class="form-control form-control-sm" asp-for="Customer.IndentityId" />
             <span asp-validation-for="Customer.IndentityId" class="text-danger"></span>
         </div>
 
