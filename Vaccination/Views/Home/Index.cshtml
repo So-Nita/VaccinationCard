@@ -6,7 +6,9 @@
 <div class="container-xxl">
     <div class="d-flex justify-content-between mb-2">
         <h3 class="">Visitors  Report</h3>
+        <button onclick="ExportToExcel()" class="btn btn-sm btn-primary mx-4 px-3 h-50 mt-2">Export</button>
     </div>
+
     <table id="datatable" class="table table-striped" style="width:100%">
         <thead>
             <tr>
@@ -36,7 +38,6 @@
     </script>
     <script>
         $(document).ready(function () {
-            // Fetch data from the API endpoint
             $.ajax({
                 url: '/VaccinationRecords/Get',
                 type: 'GET',
@@ -44,7 +45,7 @@
                 success: function (data) {
                     var index = 1;
                     data.forEach(function (i) {
-                        console.log(i);
+                       // console.log(i);
                             $('#datatable').DataTable().row.add([
                             index,
                             i.provinceName,
@@ -61,9 +62,18 @@
                 }
             });
         });
+        const ExportToExcel = () => {
+        let table = document.getElementById("datatable");
+        TableToExcel.convert(table, {
+            name: "Summary visitors.xlsx", 
+            sheet: {
+                    name: "Summary visitors report",
+            },
+        });
+        }
+        
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-    @*<script src="../Views/Script/Customers.js"></script>*@
 }

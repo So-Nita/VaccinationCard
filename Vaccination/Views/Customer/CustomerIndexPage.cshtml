@@ -9,6 +9,7 @@
     <div class="d-flex justify-content-between mb-2">
     <h3 class="">Visitors  Report</h3>
     <div>
+        <button onclick="ExportToExcel()" class="btn btn-sm btn-primary mx-4 px-3">Export</button>
         <a class="btn btn-sm btn-primary text-white" asp-area="" asp-controller="Customer" asp-action="AddCustomer">Add Visitor</a>
     </div>
     </div>
@@ -36,7 +37,7 @@
                         <td>@item.Province.ProvinceName</td>
                         <td>@item.IdentityId</td>
                         <td>
-                            <a href="ViewCustomer/@item.Id">Edit</a>
+                            <a class="btn btn-sm btn-secondary px-3" href="ViewCustomer/@item.Id">Edit</a>
                         </td>
                     </tr>
                     i++;
@@ -58,6 +59,15 @@
         $(document).ready(function () {
             $('#datatable').DataTable();
         });
+        const ExportToExcel = () => {
+        let table = document.getElementById("datatable");
+        TableToExcel.convert(table, {
+            name: "visitors.xlsx", 
+            sheet: {
+                name: "Visitors", 
+            },
+        });
+    }
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
