@@ -90,8 +90,8 @@ namespace Vaccination.Controllers
                 await _context.GetRepository<Customer, string>().AddAsync(newCus);
                 await _context.GetRepository<VaccinatedRecord, string>().AddAsync(newRecord);
                 _context.Commit();
-                TempData["SuccessMessage"] = "Successfully.";
-                return Ok("Create successfully");
+                //TempData["SuccessMessage"] = "Successfully.";
+                return RedirectToAction("CustomerIndexPage");
             }
             catch
             {

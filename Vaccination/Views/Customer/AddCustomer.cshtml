@@ -2,9 +2,18 @@
     ViewData["Title"] = "Create Vistor Page";
 }
 @model Vaccination.Models.Customer.CustomerCreateViewModel
+@{
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
 
 <div class="container px-5">
-    <form method="post" action="CustomerIndexPage">
+    <form method="post" >
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         
         <div class="mb-3">
@@ -15,7 +24,7 @@
 
         <div class="mb-3">
             <label class="form-label">Identity ID</label>
-            <input id="IndentityId" type="text" class="form-control form-control-sm" asp-for="Customer.IndentityId" />
+            <input maxlength="10" id="IndentityId" type="text" class="form-control form-control-sm" asp-for="Customer.IndentityId" />
             <span asp-validation-for="Customer.IndentityId" class="text-danger"></span>
         </div>
 
@@ -63,7 +72,7 @@
     </form>
 </div>
 
-<!-- Your form and other content here -->
+
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -97,14 +106,13 @@
                     },
                     error: function (error) {
                         console.log('Error:', error);
-                        if(status==200){
-                            alert("Create Successfully")
-                        }else { alert("Error Create not success"); }
+                        if (error.status == 200) {
+                            alert("Create Successfully \nPlase go to check in view page.\nReload auto is comming soon.")
+                        }
                     }
                 });
             });
         });
-        const ExportData = 
     </script>
 
 }
